@@ -2,13 +2,13 @@
 <script src='https://d3js.org/d3.v5.min.js'></script>
 <style> circle {fill: lightblue; stroke: black;} </style>
 <body onload='init()'>
-<svg width=300 height=300>
+<svg width=600 height=600>
 </svg>
 <script>
 async function init() {
   var center = 50;
-  var width =200
-  var height =200
+  var width =400
+  var height =400
   const data = await d3.csv("https://flunky.github.io/cars2017.csv");
   d3.select("svg")
       .attr("width",width)
