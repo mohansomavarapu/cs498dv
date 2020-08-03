@@ -29,10 +29,15 @@
       <div class='row'>
         <div id="chart">
           <div class='header'>
-            <h3>COVID-19 Cumulative Cases from January 2020 to July 2020</h3>
+            <h3>COVID-19 Cumulative Cases from February 2020 to July 2020</h3>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input style="display: inline" type="radio" name="bidding_no" value="1" checked>Bidding Exercise 1
+                <input style="display: inline" type="radio" name="Month" value="1" checked>February
+                <!-- <input style="display: inline" type="radio" name="Month" value="2">March
+                <input style="display: inline" type="radio" name="Month" value="3">April
+                <input style="display: inline" type="radio" name="Month" value="4">May
+                <input style="display: inline" type="radio" name="Month" value="5">June
+                <input style="display: inline" type="radio" name="Month" value="6">July -->
               </label>
             </div>
           </div>
@@ -43,6 +48,8 @@
       var glines
       var mouseG
       var tooltip
+
+      const formater =  d3.format(',d');
 
       var parseDate = d3.timeParse("%Y-%m-%d"),
           dateFormatter = d3.timeParse("%m/%d/%Y");
@@ -63,7 +70,7 @@
       // since Category B and E are really close to each other, assign them diverging colors
       var color = d3.scaleOrdinal()
         .domain(country)
-        .range(["#1176F0", "#7C8DA4", "#B7433D", "#2E7576", "#EE811D", "#FF5733", "#99A543", "#D6333A", "#3F4B3C", "#95DCD7", "#BAD3F0", "#8B10C9", "#EC10B7"])
+        .range(["#1176F0", "#7C8DA4", "#FC8C87", "#2E7576", "#EE811D", "#FF5733", "#99A543", "#D6333A", "#3F4B3C", "#02DDCD", "#6CAEFC", "#8B10C9", "#EC10B7"])
 
       d3.csv("https://raw.githubusercontent.com/mohansomavarapu/cs498dv/gh-pages/topcovidnationsdata.csv", data => {
 
@@ -75,15 +82,15 @@
           }
         })
 
-        var xScale = d3.scaleTime()
-          .domain(d3.extent(res, d=>d.date))
-          .range([0, width]);
+       var xScale = d3.scaleTime()
+         .domain(d3.extent(res, d=>d.date))
+        .range([0, width]);
 
-        function roundToNearest10K(x) {
+      function roundToNearest10K(x) {
           return Math.round(x / 10000) * 10000
-        }
+       }
 
-        var yScale = d3.scaleLinear()
+       var yScale = d3.scaleLinear()
           .domain([0, roundToNearest10K(d3.max(res, d => d.cases))])
           .range([height, 0]);
 
@@ -91,7 +98,7 @@
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append('g')
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
         // CREATE AXES // 
@@ -169,22 +176,162 @@
             .style("font-size", 12)
             .text(d=>d)
 
-        // line generator 
         var line = d3.line()
           .x(d => xScale(d.date))
           .y(d => yScale(d.cases))
-
         
         renderChart(1);
 
+        // d3.selectAll(("input[name='Month']")).on('change', function(){
+        //   updateChart(this.value)
+      //  })
         
 
-        function renderChart(bidding_no) {
+        // function updateChart(monthnumber) {
+        //   console.log("here")
 
-          
+        //   var resNew = res.filter(d=>d.date.getMonth() <= monthnumber)
+
+        //   var res_nested = d3.nest()
+        //     .key(d=>d.country)
+        //     .entries(resNew)
+
+        //   var xScale3 = d3.scaleTime()
+        //   .domain(d3.extent(resNew, d=>d.date))
+        //   .range([0, width]);
+
+        //   var yScale3 = d3.scaleLinear()
+        //   .domain([0, roundToNearest10K(d3.max(resNew, d => d.cases))])
+        //   .range([height, 0]);
+
+        //   var xAxis = d3.axisBottom(xScale3).ticks(d3.timeMonth.every(1)).tickSizeOuter(axisPad*2).tickSizeInner(axisPad*2)
+        //   var yAxis = d3.axisLeft(yScale3).ticks(10).tickSize(-width)
+
+        //   svg.select(".x.axis") 
+        //   .transition()
+        //   .call(xAxis)
+        //   .call(g => {
+        //     var years = xScale3.ticks(5)
+        //     var xshift = (width/(years.length))/2 
+        //     g.selectAll("text").attr("transform", `translate(${xshift}, 0)`) //shift tick labels to middle of interval
+        //       .style("text-anchor", "middle")
+        //       .attr("y", axisPad)
+        //       .attr('fill', '#A9A9A9')
+
+        //     g.selectAll("line")
+        //       .attr('stroke', '#A9A9A9')
+  
+        //     g.select(".domain")
+        //       .attr('stroke', '#A9A9A9')
+
+        //   })
+
+        //    svg.select(".y.axis") 
+        //   .transition()
+        //   .call(yAxis)
+        //   .call(g => {
+        //     g.selectAll("text")
+        //     .style("text-anchor", "middle")
+        //     .attr("x", -axisPad*2)
+        //     .attr('fill', '#A9A9A9')
+
+        //     g.selectAll("line")
+        //       .attr('stroke', '#A9A9A9')
+        //       .attr('stroke-width', 0.7) // make horizontal tick thinner and lighter so that line paths can stand out
+        //       .attr('opacity', 0.3)
+
+        //     g.select(".domain").remove()
+
+        //    })
+
+        //    var line = d3.line()
+        //     .x(d => xScale3(d.date))
+        //     .y(d => yScale3(d.cases))
+
+        //   var lines = svg.selectAll('g')
+        //     .attr('class', 'lines')
+
+        //   glines = lines.selectAll('.line-group')
+        //     .data(res_nested).enter()
+        //     .append('g')
+        //     .attr('class', 'line-group')
+
+        //   glines.select('.line') //select line path within line-group (which represents a vehicle category), then bind new data 
+        //     .data(res_nested)
+        //     .transition()
+        //     .attr('d', d => line(d.values))
+        //     .style('stroke', (d, i) => color(i))
+        //     .style('fill', 'none')
+        //     .style('opacity', lineOpacity)
+        //     .style('stroke-width', lineStroke)
+
+        //       console.log("end here")
+
+        // }
+
+        function renderChart(monthnumber) {
+
+          var resNew = res.filter(d=>d.date.getMonth() <= monthnumber)
+
           var res_nested = d3.nest() // necessary to nest data so that keys represent each vehicle category
             .key(d=>d.country)
-            .entries(res)
+            .entries(resNew)
+
+
+        var xScale2 = d3.scaleTime()
+          .domain(d3.extent(resNew, d=>d.date))
+          .range([0, width]);
+
+        var yScale2 = d3.scaleLinear()
+          .domain([0, roundToNearest10K(d3.max(resNew, d => d.cases))])
+          .range([height, 0]);
+
+        var xAxis = d3.axisBottom(xScale2).ticks(d3.timeMonth.every(1)).tickSizeOuter(axisPad*2).tickSizeInner(axisPad*2)
+        var yAxis = d3.axisLeft(yScale2).ticks(10).tickSize(-width)
+
+
+          svg.select(".x.axis") 
+          .transition()
+          .call(xAxis)
+          .call(g => {
+            var years = xScale2.ticks(5)
+            var xshift = (width/(years.length))/2 
+            g.selectAll("text").attr("transform", `translate(${xshift}, 0)`) //shift tick labels to middle of interval
+              .style("text-anchor", "middle")
+              .attr("y", axisPad)
+              .attr('fill', '#A9A9A9')
+
+            g.selectAll("line")
+              .attr('stroke', '#A9A9A9')
+  
+            g.select(".domain")
+              .attr('stroke', '#A9A9A9')
+
+          })
+
+           svg.select(".y.axis") 
+          .transition()
+          .call(yAxis)
+          .call(g => {
+            g.selectAll("text")
+            .style("text-anchor", "middle")
+            .attr("x", -axisPad*2)
+            .attr('fill', '#A9A9A9')
+
+            g.selectAll("line")
+              .attr('stroke', '#A9A9A9')
+              .attr('stroke-width', 0.7) // make horizontal tick thinner and lighter so that line paths can stand out
+              .attr('opacity', 0.3)
+
+            g.select(".domain").remove()
+
+           })
+
+
+        // line generator 
+        var line = d3.line()
+          .x(d => xScale2(d.date))
+          .y(d => yScale2(d.cases))
 
           // APPEND MULTIPLE LINES //
           var lines = svg.append('g')
@@ -204,21 +351,6 @@
               .style('opacity', lineOpacity)
               .style('stroke-width', lineStroke)
 
-
-          // APPEND CIRCLE MARKERS //
-          //var gcircle = lines.selectAll("circle-group")
-            //.data(res_nested).enter()
-            //.append("g")
-            //.attr('class', 'circle-group')
-
-          //gcircle.selectAll("circle")
-            //.data(d => d.values).enter()
-            //.append("g")
-            //.attr("class", "circle")  
-            //.append("circle")
-            //.attr("cx", d => xScale(d.date))
-            //.attr("cy", d => yScale(d.premium))
-            //.attr("r", 2)
 
           // CREATE HOVER TOOLTIP WITH VERTICAL LINE //
           tooltip = d3.select("#chart").append("div")
@@ -284,31 +416,31 @@
 
               d3.selectAll(".mouse-per-line")
                 .attr("transform", function (d, i) {
-                  var xDate = xScale.invert(mouse[0]) // use 'invert' to get date corresponding to distance from mouse position relative to svg
+                  var xDate = xScale2.invert(mouse[0]) // use 'invert' to get date corresponding to distance from mouse position relative to svg
                   var bisect = d3.bisector(function (d) { return d.date; }).left // retrieve row index of date on parsed csv
                   var idx = bisect(d.values, xDate);
 
                   d3.select(".mouse-line")
                     .attr("d", function () {
-                      var data = "M" + xScale(d.values[idx].date) + "," + (height);
-                      data += " " + xScale(d.values[idx].date) + "," + 0;
+                      var data = "M" + xScale2(d.values[idx].date) + "," + (height);
+                      data += " " + xScale2(d.values[idx].date) + "," + 0;
                       return data;
                     });
-                  return "translate(" + xScale(d.values[idx].date) + "," + yScale(d.values[idx].country) + ")";
+                  return "translate(" + xScale2(d.values[idx].date) + "," + yScale(d.values[idx].country) + ")";
 
                 });
 
-              updateTooltipContent(mouse, res_nested)
+              updateTooltipContent(mouse, res_nested,xScale2)
 
             })
 
           }
 
-      function updateTooltipContent(mouse, res_nested) {
+      function updateTooltipContent(mouse, res_nested,xScaleval) {
 
         sortingObj = []
         res_nested.map(d => {
-          var xDate = xScale.invert(mouse[0])
+          var xDate = xScaleval.invert(mouse[0])
           var bisect = d3.bisector(function (d) { return d.date; }).left
           var idx = bisect(d.values, xDate)
           sortingObj.push({key: d.values[idx].country, cases: d.values[idx].cases,  date: d.values[idx].date.getDate(), year: d.values[idx].date.getFullYear(), month: monthNames[d.values[idx].date.getMonth()]})
@@ -337,10 +469,10 @@
           })
           .style('font-size', 10)
           .html(d => {
-            var xDate = xScale.invert(mouse[0])
+            var xDate = xScaleval.invert(mouse[0])
             var bisect = d3.bisector(function (d) { return d.date; }).left
             var idx = bisect(d.values, xDate)
-            return d.key + ": " + d.values[idx].cases
+            return d.key + ": " + formater(d.values[idx].cases)
           })
       }
 
