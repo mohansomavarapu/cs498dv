@@ -32,12 +32,12 @@
             <h3>COVID-19 Cumulative Cases from February 2020 to July 2020</h3>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input style="display: inline" type="radio" name="Month" value="1" checked>February
-                <!-- <input style="display: inline" type="radio" name="Month" value="2">March
-                <input style="display: inline" type="radio" name="Month" value="3">April
-                <input style="display: inline" type="radio" name="Month" value="4">May
-                <input style="display: inline" type="radio" name="Month" value="5">June
-                <input style="display: inline" type="radio" name="Month" value="6">July -->
+                <input type="button" onclick="location.href='https://mohansomavarapu.github.io/cs498dv/February.html';" value="February"/>
+                <input type="button" onclick="location.href='https://mohansomavarapu.github.io/cs498dv/March.html';" value="March"/>
+                <input type="button" onclick="location.href='https://mohansomavarapu.github.io/cs498dv/April.html';" value="April"/>
+                <input type="button" onclick="location.href='https://mohansomavarapu.github.io/cs498dv/May.html';" value="May"/>
+                <input type="button" onclick="location.href='https://mohansomavarapu.github.io/cs498dv/June.html';" value="June"/>
+                <input type="button" onclick="location.href='https://mohansomavarapu.github.io/cs498dv/July.html';" value="July"/>
               </label>
             </div>
           </div>
@@ -181,93 +181,6 @@
           .y(d => yScale(d.cases))
         
         renderChart(1);
-
-        // d3.selectAll(("input[name='Month']")).on('change', function(){
-        //   updateChart(this.value)
-      //  })
-        
-
-        // function updateChart(monthnumber) {
-        //   console.log("here")
-
-        //   var resNew = res.filter(d=>d.date.getMonth() <= monthnumber)
-
-        //   var res_nested = d3.nest()
-        //     .key(d=>d.country)
-        //     .entries(resNew)
-
-        //   var xScale3 = d3.scaleTime()
-        //   .domain(d3.extent(resNew, d=>d.date))
-        //   .range([0, width]);
-
-        //   var yScale3 = d3.scaleLinear()
-        //   .domain([0, roundToNearest10K(d3.max(resNew, d => d.cases))])
-        //   .range([height, 0]);
-
-        //   var xAxis = d3.axisBottom(xScale3).ticks(d3.timeMonth.every(1)).tickSizeOuter(axisPad*2).tickSizeInner(axisPad*2)
-        //   var yAxis = d3.axisLeft(yScale3).ticks(10).tickSize(-width)
-
-        //   svg.select(".x.axis") 
-        //   .transition()
-        //   .call(xAxis)
-        //   .call(g => {
-        //     var years = xScale3.ticks(5)
-        //     var xshift = (width/(years.length))/2 
-        //     g.selectAll("text").attr("transform", `translate(${xshift}, 0)`) //shift tick labels to middle of interval
-        //       .style("text-anchor", "middle")
-        //       .attr("y", axisPad)
-        //       .attr('fill', '#A9A9A9')
-
-        //     g.selectAll("line")
-        //       .attr('stroke', '#A9A9A9')
-  
-        //     g.select(".domain")
-        //       .attr('stroke', '#A9A9A9')
-
-        //   })
-
-        //    svg.select(".y.axis") 
-        //   .transition()
-        //   .call(yAxis)
-        //   .call(g => {
-        //     g.selectAll("text")
-        //     .style("text-anchor", "middle")
-        //     .attr("x", -axisPad*2)
-        //     .attr('fill', '#A9A9A9')
-
-        //     g.selectAll("line")
-        //       .attr('stroke', '#A9A9A9')
-        //       .attr('stroke-width', 0.7) // make horizontal tick thinner and lighter so that line paths can stand out
-        //       .attr('opacity', 0.3)
-
-        //     g.select(".domain").remove()
-
-        //    })
-
-        //    var line = d3.line()
-        //     .x(d => xScale3(d.date))
-        //     .y(d => yScale3(d.cases))
-
-        //   var lines = svg.selectAll('g')
-        //     .attr('class', 'lines')
-
-        //   glines = lines.selectAll('.line-group')
-        //     .data(res_nested).enter()
-        //     .append('g')
-        //     .attr('class', 'line-group')
-
-        //   glines.select('.line') //select line path within line-group (which represents a vehicle category), then bind new data 
-        //     .data(res_nested)
-        //     .transition()
-        //     .attr('d', d => line(d.values))
-        //     .style('stroke', (d, i) => color(i))
-        //     .style('fill', 'none')
-        //     .style('opacity', lineOpacity)
-        //     .style('stroke-width', lineStroke)
-
-        //       console.log("end here")
-
-        // }
 
         function renderChart(monthnumber) {
 
